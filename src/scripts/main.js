@@ -36,7 +36,7 @@ function updateBoard() {
     cell.textContent = value === 0 ? '' : value;
     cell.className = 'field-cell';
     if (value !== 0) {
-      cell.classList.add(`tile-${value}`);
+      cell.classList.add(`field-cell--${value}`);
     }
   });
 }
