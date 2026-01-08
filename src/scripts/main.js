@@ -17,6 +17,7 @@ function startGame() {
   game = new Game();
   game.start();
   updateUI();
+  startButton.classList.add('hidden');
   restartButton.classList.remove('hidden');
 }
 
@@ -31,10 +32,13 @@ function updateUI() {
 
 function updateBoard() {
   const state = game.getState();
+
   state.flat().forEach((value, index) => {
     const cell = cells[index];
+
     cell.textContent = value === 0 ? '' : value;
     cell.className = 'field-cell';
+
     if (value !== 0) {
       cell.classList.add(`field-cell--${value}`);
     }
@@ -46,30 +50,48 @@ function updateScore() {
 }
 
 function updateMessages() {
-  const status = game.getStatus();
+  const gameStatus = game.getStatus();
 
   messageStart.classList.add('hidden');
   messageWin.classList.add('hidden');
   messageLose.classList.add('hidden');
 
-  if (status === 'idle') messageStart.classList.remove('hidden');
-  if (status === 'win') messageWin.classList.remove('hidden');
-  if (status === 'lose') {
+  if (gameStatus === 'idle') {
+    messageStart.classList.remove('hidden');
+    startButton.classList.remove('hidden');
+    restartButton.classList.add('hidden');
+  }
+
+  if (gameStatus === 'win') {
+    messageWin.classList.remove('hidden');
+  }
+
+  if (gameStatus === 'lose') {
     messageLose.classList.remove('hidden');
     restartButton.classList.remove('hidden');
   }
 }
 
 document.addEventListener('keydown', (e) => {
-  if (!game || game.getStatus() !== 'playing') return;
+  if (!game || game.getStatus() !== 'playing') {
+    return;
+  }
 
   let moved = false;
 
   switch (e.key) {
-    case 'ArrowLeft': moved = game.moveLeft(); break;
-    case 'ArrowRight': moved = game.moveRight(); break;
-    case 'ArrowUp': moved = game.moveUp(); break;
-    case 'ArrowDown': moved = game.moveDown(); break;
+    case 'ArrowLeft':
+      moved = game.moveLeft();
+      break;
+    case 'ArrowRight':
+      moved = game.moveRight();
+      break;
+    case 'ArrowUp':
+      moved = game.moveUp();
+      break;
+    case 'ArrowDown':
+      moved = game.moveDown();
+      break;
   }
 
   if (moved) {
