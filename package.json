@@ -45,7 +45,8 @@
   "mateAcademy": {
     "projectType": "layoutDOM",
     "linters": {
-      "bem": false
+      "bem": false,
+      "html": false
     },
     "tests": {
       "jest": false,
